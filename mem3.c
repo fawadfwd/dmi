@@ -308,6 +308,8 @@ static ssize_t mychardev_read(struct file *file, char __user *buf, size_t count,
 	}	
 //	struct rtl8169_private *tp = dev_get_drvdata(&p->dev);
 	struct pci_slot *s=p->slot;
+	int slot = PCI_SLOT(p->devfn);
+	printk("WOWOWOWOWOWOW &&&&&&& slot = <%d>\n",slot);
 	if(s==NULL)
 	{
 		printk("************** slot NULL\n");
