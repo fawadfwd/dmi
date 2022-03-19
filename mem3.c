@@ -300,7 +300,7 @@ static ssize_t mychardev_read(struct file *file, char __user *buf, size_t count,
 {
 
 	//struct pci_dev *p=kmalloc(sizeof(struct pci_dev),GFP_KERNEL);
-	struct pci_dev *p=pci_get_device(0x10DE,0x2486,NULL);
+	struct pci_dev *p=pci_get_device(0x10DE,0x2484,NULL);
 	if(p==NULL)
 	{
 		printk("oh no __________________________\n");
