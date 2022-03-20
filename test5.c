@@ -21,6 +21,17 @@ struct structure
 
 
 int count=0;
+
+#define WORD(x) (uint16_t)((x)[0] + ((x)[1] << 8))
+
+static void dmi_slot_segment_bus_func(uint16_t code1, uint8_t code2, uint8_t code3)
+{
+	/* 7.10.8 */
+	if (!(code1 == 0xFFFF && code2 == 0xFF && code3 == 0xFF))
+		printf("Bus Address %04x:%02x:%02x.%x\n",
+			code1, code2, code3 >> 3, code3 & 0x7);
+}
+//dmidecode -t 9 | grep "desig | type 9" 
 void process_dmi(char *arr,long n,struct structure *my)
 {
 
@@ -32,13 +43,36 @@ void process_dmi(char *arr,long n,struct structure *my)
 		int j=i;
 		if(m->type==9)
 		{
-			printf("type %d\n",m->type);
-			printf("handle %x\n",m->handle);
-			printf("length %d\n",m->length);
-			printf("slot %d\n",arr[i+4]&0b11111111);
-			printf("bus %d\n",arr[i+15]&0b11111111);
-			printf("function %d\n",arr[i+16]&0b11111111);
-			printf("segment %x\n",arr[i+14]&0b1111111111111111);		
+		
+			char *test1=(char *)m;
+			printf("__________________________________________________\n");
+			printf("~~~%d\n",i);
+			int j=0;
+			int p1=m->length;
+
+			while(j<(p1))
+			{
+				printf("~%x ",test1[j]&0x000000FF);
+				j++;
+			}
+			printf("\n");
+			//printf("type %d\n",m->type);
+
+			//printf("handle %x\n",m->handle);
+			//////printf("length %d\n",m->length);
+			//////printf("slot %x\n",arr[i+4]&0b11111111);
+			//////printf("slot type %x\n",arr[i+5]&0b11111111);
+			//////printf("bus %x\n",arr[i+15]&0b11111111);
+			//printf("function %x\n",arr[i+16]&0b11111111);
+			//////printf("segment %x\n",arr[i+14]&0b1111111111111111);
+			//printf("+%x %x+ \n",arr[i+13]&0b11111111,(arr[i+14]&0b11111111));
+			
+			char x=0x08;
+			
+			//////printf("@%d\n",x&0b00001000);
+
+			//////printf("device number %x\n",arr[i+16]&0b00000111);
+			//////printf("function number%x\n",arr[i+16]&0b11111000);			
 			count++;
 	
 		}
@@ -97,7 +131,7 @@ int main()
 	if(x<0)
 	exit(0);
 	printf("struct SMBIOS entry point\n");
-	printf("+-_%d______________________________\n",x);
+	//printf("+-_%d______________________________\n",x);
 
 		
 	int j=0;
@@ -124,7 +158,7 @@ int main()
 
 	int k=0;
 
-	printf("+__________________________________________________\n");
+	//printf("+__________________________________________________\n");
 	struct stat stats_dmi;
 	int ret=0;
 	if ((ret=stat("/sys/firmware/dmi/tables/DMI", &stats_dmi)) == 0)
@@ -152,7 +186,7 @@ int main()
 	read(fd_dmi,buffer_dmi,stats_dmi.st_size+1);
 	
 	printf("struct DMI entry point\n");
-	printf("+_______________________________\n");
+	//printf("+_______________________________\n");
 	for(int i=0;i<stats_dmi.st_size;i++)
 	{
 		
