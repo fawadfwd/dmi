@@ -48,14 +48,14 @@ void process_dmi(char *arr,long n,struct structure *my)
 			printf("__________________________________________________\n");
 			printf("~~~%d\n",i);
 			int j=0;
-			int p1=m->length;
+			int p1=m->length+1;
 
 			while(j<(p1))
 			{
-				printf("~%x ",test1[j]&0x000000FF);
+				printf("~%x ",test1[j]&0x0F);
 				j++;
 			}
-			printf("\n");
+			//printf("\n");
 			//printf("type %d\n",m->type);
 
 			//printf("handle %x\n",m->handle);
@@ -104,8 +104,9 @@ void process_dmi(char *arr,long n,struct structure *my)
 	printf("(( %d ))\n",count);
 	
 }
-
-
+#define PCI_DEVFN(slot, func)	((((slot) & 0x1f) << 3) | ((func) & 0x07))
+#define PCI_FUNC(devfn)		((devfn) & 0x07)
+#define PCI_SLOT(devfn)		(((devfn) >> 3) & 0x1f)
 int main()
 {
 
@@ -155,6 +156,10 @@ int main()
 		
 		j++;
 	}
+	printf("~~~~~~~devfn = ~%x\n",PCI_DEVFN(2,3));
+	printf("~~~~~~~devfn = ~%x\n",PCI_DEVFN(3,3));
+	printf("~~~~~~~devfn = ~%x\n",PCI_DEVFN(1,3));
+	printf("~~~~~~~devfn = ~%x\n",PCI_DEVFN(5,3));
 
 	int k=0;
 
