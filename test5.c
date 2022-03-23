@@ -46,15 +46,23 @@ void process_dmi(char *arr,long n,struct structure *my)
 		
 			char *test1=(char *)m;
 			printf("__________________________________________________\n");
-			printf("~~~%d\n",i);
+			//printf("~~~%d\n",i);
 			int j=0;
-			int p1=m->length+1;
+			int p1=m->length+1000;
+			int k=0;
 
 			while(j<(p1))
 			{
+				if(test1[j]==0 && test1[j+1]==0 && k>17)
+				{
+					printf("\n");
+					k=0;
+				}	
 				printf("~%x ",test1[j]&0x0F);
 				j++;
+				k++;
 			}
+			exit(0);
 			//printf("\n");
 			//printf("type %d\n",m->type);
 
@@ -214,3 +222,4 @@ int main()
 
 	return 0;
 }
+
